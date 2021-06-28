@@ -16,7 +16,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Clase de Agenda
+ * Coleccion generica para objetos de la clase turn
+ * @param Integer como clave de mapa
+ * @param Turn como valor de mapa
+ *
  */
 public class Schedule implements ICollection, Serializable {
     // La clave del mapa es el numero de los turnos.
@@ -27,6 +30,10 @@ public class Schedule implements ICollection, Serializable {
         turnHashMap = new HashMap<Integer, Turn>();
     }
 
+    /**
+     *
+     * @param obj Recibe un turno para agregar a la coleccion
+     */
     @Override
     public void add(Object obj) {
         //Turn turno = (Turn) obj;
@@ -37,6 +44,10 @@ public class Schedule implements ICollection, Serializable {
         }
     }
 
+    /**
+     * Metodo para mostrar los elementos de tipo Turn que tiene el HashMap
+     * @return retorna un String con los elementos
+     */
     @Override
     public String showCollection() {
         Iterator<Map.Entry<Integer, Turn>> it = turnHashMap.entrySet().iterator();
@@ -56,11 +67,19 @@ public class Schedule implements ICollection, Serializable {
     return "";
     }
 
-    //Funcion que retorna true si el mapa contiene la key dada
+    /**
+     * Metodo para saber si un turno existe
+     * @param key Recibe un int para usar como key para buscar en el hashMap
+     * @return retorna true si existe el Turno
+     */
     public Boolean exist(Integer key){
         return turnHashMap.containsKey(key);
     }
 
+    /**
+     * Metodo para crear un turno y lo guarda en la coleccion
+     * @param collection Recibe por parametro la coleccion
+     */
     public void createTurn(ClientCollection collection){
         Turn turn;
         Client client;
@@ -98,7 +117,10 @@ public class Schedule implements ICollection, Serializable {
 
     }
 
-
+    /**
+     * Meotodo para pasar los elementos del HashMap a JSON
+     * @return Retorna un JSONArray con los datos del HashMap
+     */
     public JSONArray turnMapToJson() {
 
         JSONArray result = null;
@@ -131,6 +153,11 @@ public class Schedule implements ICollection, Serializable {
         return result;
     }
 
+    /**
+     * Metodo para hacer borrado logico del HashMap de los turnos
+     * @param turnNumber recibe la key
+     * @throws NotAnExistingTurn lanza la excepcion si el turno no existe
+     */
     public void deleteTurn(int turnNumber) throws NotAnExistingTurn {
         if (turnHashMap.containsKey(turnNumber)) {
             turnHashMap.get(turnNumber).setStatus(false);
@@ -139,6 +166,12 @@ public class Schedule implements ICollection, Serializable {
         }
     }
 
+    /**
+     * Metodo para modificar la razon de un turno
+     * @param turnNumber Recibe la key (int)
+     * @param newReason Recibe la nueva razon (String)
+     * @throws NotAnExistingTurn Lanza la excepcion en caso de que el turno no exista
+     */
     public void modifyTurn(int turnNumber, String newReason) throws NotAnExistingTurn{
         if(turnHashMap.containsKey(turnNumber)) {
             turnHashMap.get(turnNumber).setReason(newReason);
@@ -146,6 +179,8 @@ public class Schedule implements ICollection, Serializable {
             throw new NotAnExistingTurn("El turno ingresado no existe!");
         }
     }
+
+
     @Override
     public String toString() {
         return "Schedule{" +
