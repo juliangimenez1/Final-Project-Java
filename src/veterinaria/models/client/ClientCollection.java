@@ -1,5 +1,6 @@
 package veterinaria.models.client;
 
+import veterinaria.exceptions.ExistingClient;
 import veterinaria.exceptions.NotAClientObjectException;
 import veterinaria.exceptions.NotAnExistingClient;
 import veterinaria.util.ICollection;
@@ -33,7 +34,7 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
             if (obj instanceof Client) {
                 clientSet.add((E) obj);
             } else {
-                throw new NotAClientObjectException("El objeto no es un cliente.");
+                throw new NotAClientObjectException("El objeto no es un cliente o ya existe en el sistema.");
             }
         }catch(NotAClientObjectException ex) {
             System.out.println(ex.getMessage());
@@ -45,6 +46,7 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
     * */
     public void create() {
         try {
+            int result;
             Client c;
 
             String name, lastName, DNI, phone, address, paymentMethod;
@@ -75,12 +77,15 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
             }while (!paymentMethod.equals("Tarjeta") && !paymentMethod.equals("tarjeta") && !paymentMethod.equals("Efectivo") && !paymentMethod.equals("efectivo"));
 
             c = new Client(name, lastName, DNI, phone, address, paymentMethod);
+            result = searchInt(c.getDNI());
+            if(c != null && result == 0){
 
-            if(c != null) {
                 clientSet.add((E) c);
+            } else {
+                throw new ExistingClient("Ya existe un cliente con ese DNI.");
             }
-        }catch(Exception ex) {
-            ex.printStackTrace();
+        }catch(ExistingClient ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -244,6 +249,19 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         return found;
     }
 
+    private int searchInt(String DNI) {
+        Iterator<E> it = clientSet.iterator();
+        int result = 0;
+        while(it.hasNext()){
+            Client aux = (Client)it.next();
+            if(aux.getDNI().equals(DNI)) {
+                result = 1;
+                break;
+            }
+        }
+        return result;
+    }
+
     /**
      * Método para remover un cliente de la colección.
      * @param obj Recibe un cliente a eliminar.
@@ -261,13 +279,15 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
     public void removeClient() {
         String DNI;
         Client found;
-        System.out.println("~~~~~~~ Veterinaria Walrus ~~~~~~~\n");
         System.out.println("Ingrese el DNI del cliente a remover: ");
         DNI = scan.nextLine();
         try {
             found = search(DNI);  // Buscamos el cliente y lo guardamos.
+            remove((E) found);
+            found.setStatus(false);
+            clientSet.add((E) found);
         } catch (NotAnExistingClient notAnExistingClient) {
-            notAnExistingClient.printStackTrace();
+            System.out.println(notAnExistingClient.getMessage());
         }
 
     }
