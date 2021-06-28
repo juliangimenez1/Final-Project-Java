@@ -5,11 +5,14 @@ import veterinaria.exceptions.NotAnExistingClient;
 import veterinaria.util.ICollection;
 
 import java.io.*;
-import java.security.spec.ECField;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * Colección genérica para objetos que hereden de la clase persona.
+ * @param <E> Recibe un objeto que herede de la clase abstracta persona.
+ */
 public class ClientCollection<E extends Person> implements ICollection, Serializable {
     private HashSet<E> clientSet;
     private static Scanner scan = new Scanner(System.in);
@@ -19,6 +22,11 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         clientSet = new HashSet<E>();
     }
 
+    /**
+     *  Método para agregar objetos a la colección HashSet de clientes.
+     *
+     * @param obj Recibe un cliente para agregar a la colección.
+     */
     @Override
     public void add(Object obj) {
         try {
@@ -31,10 +39,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
             System.out.println(ex.getMessage());
         }
     }
+
     /**
     * Este metodo se encarga de crear todos los datos de un cliente para agregarlo a la coleccion
     * */
-
     public void create() {
         try {
             Client c;
@@ -76,6 +84,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         }
     }
 
+    /**
+     * Método para recuperar la colección de clientes en forma de String.
+     * @return Un String con la información de todos los clientes.
+     */
     @Override
     public String showCollection() {
         StringBuilder builder = new StringBuilder();
@@ -94,6 +106,9 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
     return "";
     }
 
+    /**
+     * Método para actualizar la información de los clientes.
+     */
     public void update() {
         int option;
         String DNI;
@@ -139,7 +154,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         }
 
 
-
+    /**
+     * Método que actualiza el nombre de un objeto cliente por un nombre nuevo.
+     * @param c Recibe un objeto cliente para modificar.
+     */
     private void nameModify(Client c) {
         String name;
 
@@ -153,6 +171,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         clientSet.add((E) c);           // Ingresamos el cliente actualizado en la colección.
     }
 
+    /**
+     * Método que actualiza el apellido de un objeto cliente por un apellido nuevo.
+     * @param c Recibe un objeto cliente para modificar.
+     */
     private void lastNameModify(Client c) {
         String lastName;
 
@@ -165,7 +187,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         c.setLastName(lastName);         // Cambiamos el nombre del cliente.
         clientSet.add((E) c);           // Ingresamos el cliente actualizado en la colección.
     }
-
+    /**
+     * Método que actualiza el teléfono de un objeto cliente por un teléfono nuevo.
+     * @param c Recibe un objeto cliente para modificar.
+     */
     private void phoneModify(Client c) {
         String phone;
 
@@ -179,6 +204,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         clientSet.add((E) c);           // Ingresamos el cliente actualizado en la colección.
     }
 
+    /**
+     * Método que actualiza la dirección de un objeto cliente por una dirección nueva.
+     * @param c Recibe un objeto cliente para modificar.
+     */
     private void addressModify(Client c) {
         String address;
 
@@ -192,6 +221,12 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         clientSet.add((E) c);           // Ingresamos el cliente actualizado en la colección.
     }
 
+    /**
+     * Método que busca dentro del HashSet de clientes si un cliente ya existe dentro de la misma.
+     * @param DNI Recibe el DNI del ciente en formato String.
+     * @return Devuelve el cliente encontrado.
+     * @throws NotAnExistingClient Invoca una excepción si el cliente no existe.
+     */
     public Client search(String DNI) throws NotAnExistingClient {
         Iterator<E> it = clientSet.iterator();
         Client found = null;
@@ -209,12 +244,20 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         return found;
     }
 
+    /**
+     * Método para remover un cliente de la colección.
+     * @param obj Recibe un cliente a eliminar.
+     */
     private void remove(E obj) {
         if(obj instanceof Client) {
             clientSet.remove(obj);
         }
     }
 
+    /**
+     * Método para remover un cliente de la colección.
+     * Busca el cliente en base a su DNI y elo elimina.
+     */
     public void removeClient() {
         String DNI;
         Client found;
@@ -229,6 +272,10 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
 
     }
 
+    /**
+     * Método para copiar los clientes del sistema a un archivo Clients.dat
+     * Si el archivo no existe, lo crea.
+     */
     public void collectionToFile() {
         file = new File("Clients.dat");
         if (!file.exists()){
@@ -252,6 +299,9 @@ public class ClientCollection<E extends Person> implements ICollection, Serializ
         }
     }
 
+    /**
+     * Método para cargar los clientes del archivo hacia el sistema de la veterinaria.
+     */
     public void fileToCollection() {
         file = new File("Clients.dat");
         if (file.exists()) {

@@ -4,6 +4,7 @@ import veterinaria.models.client.Client;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class Turn implements Serializable {
     private static int turnsQuantity = 0;
@@ -74,6 +75,14 @@ public class Turn implements Serializable {
 
     public boolean isStatus() {
         return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Turn turn = (Turn) o;
+        return turnNumber == turn.turnNumber && status == turn.status && Objects.equals(client, turn.client) && Objects.equals(reason, turn.reason) && Objects.equals(date, turn.date);
     }
 
     @Override

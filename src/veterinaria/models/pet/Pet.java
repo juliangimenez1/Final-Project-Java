@@ -1,6 +1,7 @@
 package veterinaria.models.pet;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Pet implements Serializable {
     private String name;
@@ -70,6 +71,14 @@ public class Pet implements Serializable {
 
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pet pet = (Pet) o;
+        return age == pet.age && sex == pet.sex && Float.compare(pet.weight, weight) == 0 && Float.compare(pet.height, height) == 0 && status == pet.status && Objects.equals(name, pet.name) && Objects.equals(race, pet.race);
     }
 
     @Override

@@ -56,6 +56,11 @@ public class jsonUtil {
         return contenido;
     }
 
+    /**
+     * Carga un arraylist de Turnos a partir de un String en formato JSON.
+     * @param json Recibe un String en formato JSON con la colección de Turnos.
+     * @return Devuelve un ArrayList de Turnos cargado con Objetos.
+     */
     public static ArrayList<Turn> jsonToJava(String json)
     {
 
@@ -98,6 +103,11 @@ public class jsonUtil {
 
     }
 
+    /**
+     * Método para saber el mes de un objeto Date.
+     * @param month Recibe el String con los 3 caracteres que indican el mes. Ejemplo: Jan
+     * @return Retorna un String de dos caracteres indicando el número del mes. 01 hasta 12.
+     */
     private static String monthToNumberMonth(String month) {
         String result = "";
         switch(month) {

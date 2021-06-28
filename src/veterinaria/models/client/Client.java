@@ -13,7 +13,7 @@ public class Client extends Person {
     private static int clientsQuantity = setClientsQuantity();
     private int id;
     private String paymentMethod;
-    private PetCollection clientPetCollection;//la creo para porder crear y usar el menu :P
+    private PetCollection clientPetCollection;
     private boolean status;
     private static File file;
 
@@ -35,13 +35,7 @@ public class Client extends Person {
         status = true;
     }
 
-    public static void setClientsQuantity(int clientsQuantity) {
-        Client.clientsQuantity = clientsQuantity;
-    }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
     public String getPaymentMethod() {
         return paymentMethod;
     }
@@ -50,18 +44,17 @@ public class Client extends Person {
         return status;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public PetCollection getClientPetCollection() {
         return clientPetCollection;
     }
 
-    public void setClientPetCollection(PetCollection clientPetCollection) {
-        this.clientPetCollection = clientPetCollection;
-    }
-
+    /**
+     * Metodo para actualizar la cantidad de clientes existentes.
+     * Verifica si el archivo de clientes ya existe al inicializar el sistema.
+     * Si existe, configura el valor de la cantidad de clientes existentes en base al último id del archivo.
+     * Si no existe, configura el valor en 0.
+     * @return
+     */
     private static int setClientsQuantity() {
         file = new File("Clients.dat");
         int id = 0;
