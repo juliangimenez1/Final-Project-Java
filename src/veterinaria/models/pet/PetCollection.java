@@ -211,6 +211,7 @@ public class PetCollection implements ICollection, Serializable {
                 do {
                     System.out.print("Ingrese la nueva edad de la mascota: ");
                     age = scan.nextInt();
+                    scan.nextLine();
                 }while (age<=0);
                 mascota.setAge(age);
                 msj= "\nRealizado";
@@ -229,6 +230,7 @@ public class PetCollection implements ICollection, Serializable {
                 do {
                     System.out.print("Ingrese el nuevo peso de la mascota: ");
                     peso = scan.nextFloat();
+                    scan.nextLine();
                 }while(peso<=0);
                 mascota.setWeight(peso);
                 msj= "\nRealizado";
@@ -237,6 +239,7 @@ public class PetCollection implements ICollection, Serializable {
                 do {
                     System.out.print("Ingrese la nueva altura de la mascota: ");
                     altura = scan.nextFloat();
+                    scan.nextLine();
                 }while(altura<=0);
                 mascota.setHeight(altura);
                 msj= "\nRealizado";
